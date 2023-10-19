@@ -9,6 +9,18 @@
                 "default": "./dist/index.js",
                 "types": "./dist/index.d.ts"
             }
+        },
+        "./job": {
+            "import": {
+                "default": "./dist/job/index.js",
+                "types": "./dist/job/index.d.ts"
+            }
+        },
+        "./runner": {
+            "import": {
+                "default": "./dist/runner/index.js",
+                "types": "./dist/runner/index.d.ts"
+            }
         }
     },
     "scripts": {
@@ -19,8 +31,5 @@
     },
     "keywords": [],
     "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@pine/worker-api": "workspace:^"
-    }
+    "license": "ISC"
 }

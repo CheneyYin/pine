@@ -19,5 +19,11 @@
     },
     "keywords": [],
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+        "@pine/common": "workspace:^",
+        "@trpc/client": "^10.40.0",
+        "@trpc/server": "^10.40.0",
+        "@types/node": "^20.8.7"
+    }
 }

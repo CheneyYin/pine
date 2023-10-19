@@ -1,6 +1,2 @@
-export const conf = {
-    name: 'common',
-};
-
-import * as wApi from '@pine/worker-api';
-console.info(wApi);
+export * from './job';
+export * from './runner';
