@@ -4,19 +4,24 @@ import { userInfo } from 'node:os';
 
 const PINE_WORKER_ROOT_DIR = process.env['PINE_WORKER_ROOT_DIR'];
 
-export type WorkspaceOptions = {
+type WorkspaceOptions = {
     rootDir: string;
 };
+
+export type WorkspaceParam = Partial<WorkspaceOptions>;
 
 type WorkspaceNS = {
     readonly manifestPath: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const workspaceFactory = (opts: Partial<WorkspaceOptions>) => {
+export const workspaceFactory = (opts: WorkspaceParam) => {
     const applyOpts: WorkspaceOptions = {
         ...opts,
-        rootDir: opts.rootDir ?? PINE_WORKER_ROOT_DIR ?? '~/pine/worker',
+        rootDir:
+            opts.rootDir ??
+            PINE_WORKER_ROOT_DIR ??
+            `${userInfo().homedir}/pine/worker`,
     };
     return new Workspace(applyOpts);
 };
@@ -27,7 +32,7 @@ type Manifest = {
 };
 
 const createManifest: () => Manifest = () => ({
-    createTime: Date.now().toLocaleString(),
+    createTime: Date.now().toString(),
     createBy: userInfo().username,
 });
 
