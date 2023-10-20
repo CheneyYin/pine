@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "pnpm -r --filter \"@pine/*\" run build",
-        "clean": "pnpm -r --filter \"@pine/*\" run clean",
+        "clean": "rm -rf ./dist && pnpm -r --filter \"@pine/*\" run clean",
         "test": "pnpm -r --filter \"@pine/*\" run test",
         "style:format": "prettier --write .",
         "style:check": "prettier --check .",

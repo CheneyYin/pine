@@ -1,7 +1,9 @@
 {
-    "extends": "../../tsconfig.json",
+    // extend your base config to share compilerOptions, etc
+    "extends": "./tsconfig.json",
     "include": ["src"],
     "compilerOptions": {
-        "declarationDir": "dist"
+        // ensure that nobody can accidentally use this config for a build
+        "noEmit": true
     }
 }

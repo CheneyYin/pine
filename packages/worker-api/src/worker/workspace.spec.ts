@@ -2,9 +2,7 @@ import { WorkspaceParam, workspaceFactory } from './workspace';
 
 describe('create workspace', () => {
     test('create', async () => {
-        const opts: WorkspaceParam = {
-            rootDir: '~/pine',
-        };
+        const opts: WorkspaceParam = {};
         const workspace = workspaceFactory(opts);
         try {
             await workspace.create();
