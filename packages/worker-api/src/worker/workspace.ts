@@ -3,7 +3,9 @@ import fs from 'node:fs/promises';
 import { userInfo } from 'node:os';
 import { z } from 'zod';
 
-const PINE_WORKER_ROOT_DIR = process.env['PINE_WORKER_ROOT_DIR'];
+export enum PINE_ENV {
+    WORKER_ROOT_DIR = 'PINE_WORKER_ROOT_DIR',
+}
 
 type WorkspaceOptions = {
     rootDir: string;
@@ -15,14 +17,14 @@ type WorkspaceNS = {
     readonly manifestPath: string;
 };
 
+export const defaultWorkerDir = () => `${userInfo().homedir}/pine/worker`;
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const workspaceFactory = (opts: WorkspaceParam) => {
+    const _WORKER_ROOT_DIR = process.env[PINE_ENV.WORKER_ROOT_DIR];
     const applyOpts: WorkspaceOptions = {
         ...opts,
-        rootDir:
-            opts.rootDir ??
-            PINE_WORKER_ROOT_DIR ??
-            `${userInfo().homedir}/pine/worker`,
+        rootDir: opts.rootDir ?? _WORKER_ROOT_DIR ?? defaultWorkerDir(),
     };
     return new Workspace(applyOpts);
 };
