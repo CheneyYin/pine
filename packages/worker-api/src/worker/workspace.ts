@@ -27,15 +27,12 @@ export const workspaceFactory = (opts: WorkspaceParam) => {
     return new Workspace(applyOpts);
 };
 
-export type Manifest = {
-    createTime: string;
-    createBy: string;
-};
-
 export const manifestValidator = z.object({
     createTime: z.string(),
     createBy: z.string(),
 });
+
+export type Manifest = z.infer<typeof manifestValidator>;
 
 const createManifest: () => Manifest = () => ({
     createTime: Date.now().toString(),

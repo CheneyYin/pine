@@ -36,11 +36,11 @@ const validateWorkspace = async (path: string) => {
     }
 
     const payload = await fs.readFile(manifestPath);
-    const mainfestObj: Manifest = JSON.parse(
+    const manifestObj: Manifest = JSON.parse(
         payload.toString('utf-8'),
     ) as Manifest;
-    if (!manifestValidator.safeParse(mainfestObj).success) {
-        throw new Error(`${JSON.stringify(mainfestObj)} isn't validated.`);
+    if (!manifestValidator.safeParse(manifestObj).success) {
+        throw new Error(`${JSON.stringify(manifestObj)} isn't validated.`);
     }
 
     return true;
