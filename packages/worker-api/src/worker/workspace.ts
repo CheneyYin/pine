@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import { userInfo } from 'node:os';
+import { z } from 'zod';
 
 const PINE_WORKER_ROOT_DIR = process.env['PINE_WORKER_ROOT_DIR'];
 
@@ -26,10 +27,15 @@ export const workspaceFactory = (opts: WorkspaceParam) => {
     return new Workspace(applyOpts);
 };
 
-type Manifest = {
+export type Manifest = {
     createTime: string;
     createBy: string;
 };
+
+export const manifestValidator = z.object({
+    createTime: z.string(),
+    createBy: z.string(),
+});
 
 const createManifest: () => Manifest = () => ({
     createTime: Date.now().toString(),
