@@ -81,7 +81,7 @@ describe(`create from default worker directory`, () => {
         await cleanDir(workerDir);
     });
 
-    it(`create workspace at ${workerDir}`, async () => {
+    test(`create workspace at ${workerDir}`, async () => {
         const workspace = workspaceFactory({});
         try {
             await workspace.create();
@@ -111,7 +111,7 @@ describe('create from WorkspaceParam', () => {
         }
     });
 
-    it(`create at ${opts.rootDir}`, async () => {
+    test(`create at ${opts.rootDir}`, async () => {
         const workspace = workspaceFactory(opts);
         try {
             await workspace.create();
@@ -125,19 +125,20 @@ describe('create from WorkspaceParam', () => {
 
 describe(`create from Environment[${PINE_ENV.WORKER_ROOT_DIR}]`, () => {
     const _WORKER_ROOT_DIR = `${userInfo().homedir}/_env_pine`;
-    process.env[PINE_ENV.WORKER_ROOT_DIR] = _WORKER_ROOT_DIR;
 
     before(async () => {
         console.info(`cleaning ${_WORKER_ROOT_DIR}`);
+        process.env[PINE_ENV.WORKER_ROOT_DIR] = _WORKER_ROOT_DIR;
         await cleanDir(_WORKER_ROOT_DIR);
     });
 
     after(async () => {
         console.info(`cleaning ${_WORKER_ROOT_DIR}`);
         await cleanDir(_WORKER_ROOT_DIR);
+        process.env[PINE_ENV.WORKER_ROOT_DIR] = undefined;
     });
 
-    it(`create workspace at ${_WORKER_ROOT_DIR}`, async () => {
+    test(`create workspace at ${_WORKER_ROOT_DIR}`, async () => {
         const workspace = workspaceFactory({});
         try {
             await workspace.create();
@@ -145,6 +146,35 @@ describe(`create from Environment[${PINE_ENV.WORKER_ROOT_DIR}]`, () => {
         } catch (error) {
             console.error(error);
             expect(false).toBeTruthy();
+        }
+    });
+});
+
+describe('clean workspace', () => {
+    const workerDir = defaultWorkerDir() + '_';
+    const workspace = workspaceFactory({});
+
+    before(async () => {
+        console.info(`create workspace at ${workerDir}`);
+        await workspace.create();
+        if (!existsSync(workerDir)) {
+            fail(`Fail to create workspace at ${workerDir}`);
+        }
+    });
+
+    after(async () => {
+        console.info(`cleaning ${workerDir}`);
+        await cleanDir(workerDir);
+    });
+
+    test(`clean workspace at ${workerDir}`, async () => {
+        try {
+            await workspace.clean();
+            const isCleaned = !existsSync(workerDir);
+            expect(isCleaned).toBeTruthy();
+        } catch (error) {
+            console.error(error);
+            fail(error);
         }
     });
 });

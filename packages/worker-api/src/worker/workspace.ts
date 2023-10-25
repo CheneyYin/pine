@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import { userInfo } from 'node:os';
 import { z } from 'zod';
@@ -75,6 +75,21 @@ class Workspace {
                 process.exit(1);
             }
         }
+    }
+
+    async clean() {
+        const rootDir = this.opts.rootDir;
+        if (!existsSync(rootDir)) {
+            throw new Error(`At ${rootDir}, workspace isn't existed.`);
+        }
+        if (!statSync(rootDir).isDirectory()) {
+            throw new Error(`Workspace path[${rootDir}] isn't a directory.`);
+        }
+
+        await fs.rm(rootDir, {
+            recursive: true,
+            force: true,
+        });
     }
 }
 
