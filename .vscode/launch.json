@@ -9,30 +9,12 @@
             "request": "launch",
             "name": "Debug Jest Tests",
             "runtimeExecutable": "pnpm",
-            "runtimeArgs": [
-                "-r",
-                "--filter",
-                "@pine/worker-api",
-                "run",
-                "--inspect-brk",
-                "test",
-                "--runInBand",
-                "${file}"
-            ],
+            "runtimeArgs": ["exec", "jest", "--runInBand", "${file}"],
             "skipFiles": ["<node_internals>/**"],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "windows": {
-                "runtimeArgs": [
-                    "-r",
-                    "--filter",
-                    "@pine/worker-api",
-                    "run",
-                    "--inspect-brk",
-                    "test",
-                    "--runInBand",
-                    "/${fileBasename}"
-                ]
+                "runtimeArgs": ["exec", "jest", "--runInBand", "${file}"]
             }
         }
     ]
