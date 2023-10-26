@@ -7,8 +7,8 @@
         "build": "pnpm -r --filter \"@pine/*\" run build",
         "clean": "rm -rf ./dist && pnpm -r --filter \"@pine/*\" run clean",
         "test": "pnpm -r --filter \"@pine/*\" run test",
-        "style:format": "prettier --write .",
-        "style:check": "prettier --check .",
+        "format:fix": "prettier --write .",
+        "format:check": "prettier --check .",
         "lint": "pnpm -r --filter \"@pine/*\" run lint",
         "prepare": "husky install"
     },
