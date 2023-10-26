@@ -4,11 +4,20 @@ import {
     defaultWorkerDir,
     ManifestSchema,
     workspaceFactory,
+    manifestUtil,
 } from './workspace';
 import { userInfo } from 'node:os';
 import { existsSync, statSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import * as process from 'node:process';
+
+const deleteFile = async (path: string) => {
+    if (existsSync(path) && statSync(path).isFile()) {
+        await fs.rm(path, {
+            force: true,
+        });
+    }
+};
 
 const cleanDir = async (path: string) => {
     if (existsSync(path) && statSync(path).isDirectory()) {
@@ -64,6 +73,41 @@ describe('test Manifest validator', () => {
                 createBy: 'tome',
             }).success,
         ).toBeFalsy();
+    });
+});
+
+describe('test write and read manifest', () => {
+    const path = '/tmp/test_manifest.json';
+
+    beforeAll(async () => {
+        if (existsSync(path) && statSync(path).isFile()) {
+            await deleteFile(path);
+        }
+    });
+
+    afterAll(async () => {
+        if (existsSync(path) && statSync(path).isFile()) {
+            await deleteFile(path);
+        }
+    });
+
+    test(`test write manifest at ${path}.`, async () => {
+        try {
+            const manifest = ManifestSchema.parse(manifestUtil.create());
+            await manifestUtil.write(path, manifest);
+            expect(true).toBeTruthy();
+        } catch (error) {
+            expect(error).toBeFalsy();
+        }
+    });
+
+    test(`test read manifest at ${path}`, async () => {
+        try {
+            const manifest: Manifest = await manifestUtil.read(path);
+            expect(ManifestSchema.safeParse(manifest).success).toBeTruthy();
+        } catch (error) {
+            expect(error).toBeFalsy();
+        }
     });
 });
 

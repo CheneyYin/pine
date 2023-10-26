@@ -35,21 +35,41 @@ export const ManifestSchema = z.object({
 
 export type Manifest = Readonly<z.infer<typeof ManifestSchema>>;
 
-const createManifest: () => Manifest = () => ({
+const createManifest = (): Manifest => ({
     createTime: new Date(),
     createBy: userInfo().username,
 });
 
-async function writeManifest(path: string) {
-    const manifest = createManifest();
-    const payload = JSON.stringify(manifest);
+const readManifest = async (path: string): Promise<Manifest> => {
+    try {
+        const payload = await fs.readFile(path, {
+            encoding: 'utf-8',
+        });
+        const obj = JSON.parse(payload) as Manifest;
+        const manifest: Manifest = ManifestSchema.parse(obj);
+        return manifest;
+    } catch (error) {
+        console.error(`Fail to read manifest at ${path}.`);
+        throw error;
+    }
+};
+
+const writeManifest = async (path: string, manifest?: Manifest) => {
+    const payload = JSON.stringify(manifest ?? createManifest());
+
     try {
         await fs.writeFile(path, payload);
     } catch (error) {
         console.error(`Fail to write manifest at ${path}.`);
         throw error;
     }
-}
+};
+
+export const manifestUtil = {
+    create: createManifest,
+    read: readManifest,
+    write: writeManifest,
+};
 
 class Workspace {
     ns: WorkspaceNS;
