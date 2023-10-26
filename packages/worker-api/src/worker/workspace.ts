@@ -48,7 +48,7 @@ async function writeManifest(path: string) {
         await fs.writeFile(path, payload);
     } catch (error) {
         console.error(`Fail to write manifest at ${path}.`);
-        console.error(error);
+        throw error;
     }
 }
 

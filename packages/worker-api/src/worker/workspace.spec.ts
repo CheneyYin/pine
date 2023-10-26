@@ -9,7 +9,6 @@ import { userInfo } from 'node:os';
 import { existsSync, statSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import * as process from 'node:process';
-import { after, before } from 'node:test';
 
 const cleanDir = async (path: string) => {
     if (existsSync(path) && statSync(path).isDirectory()) {
@@ -71,12 +70,12 @@ describe('test Manifest validator', () => {
 describe(`create from default worker directory`, () => {
     const workerDir = defaultWorkerDir();
 
-    before(async () => {
+    beforeEach(async () => {
         console.info(`cleaning ${workerDir}`);
         await cleanDir(workerDir);
     });
 
-    after(async () => {
+    afterEach(async () => {
         console.info(`cleaning ${workerDir}`);
         await cleanDir(workerDir);
     });
@@ -98,14 +97,14 @@ describe('create from WorkspaceParam', () => {
         rootDir: `${userInfo().homedir}/_opts_pine`,
     };
 
-    before(async () => {
+    beforeEach(async () => {
         if (opts.rootDir) {
             console.info(`cleaning ${opts.rootDir}`);
             await cleanDir(opts.rootDir);
         }
     });
 
-    after(async () => {
+    afterEach(async () => {
         if (opts.rootDir) {
             await cleanDir(opts.rootDir);
         }
@@ -126,13 +125,13 @@ describe('create from WorkspaceParam', () => {
 describe(`create from Environment[${PINE_ENV.WORKER_ROOT_DIR}]`, () => {
     const _WORKER_ROOT_DIR = `${userInfo().homedir}/_env_pine`;
 
-    before(async () => {
+    beforeEach(async () => {
         console.info(`cleaning ${_WORKER_ROOT_DIR}`);
         process.env[PINE_ENV.WORKER_ROOT_DIR] = _WORKER_ROOT_DIR;
         await cleanDir(_WORKER_ROOT_DIR);
     });
 
-    after(async () => {
+    afterEach(async () => {
         console.info(`cleaning ${_WORKER_ROOT_DIR}`);
         await cleanDir(_WORKER_ROOT_DIR);
         process.env[PINE_ENV.WORKER_ROOT_DIR] = undefined;
@@ -151,18 +150,18 @@ describe(`create from Environment[${PINE_ENV.WORKER_ROOT_DIR}]`, () => {
 });
 
 describe('clean workspace', () => {
-    const workerDir = defaultWorkerDir() + '_';
+    const workerDir = defaultWorkerDir();
     const workspace = workspaceFactory({});
 
-    before(async () => {
+    beforeEach(async () => {
         console.info(`create workspace at ${workerDir}`);
         await workspace.create();
         if (!existsSync(workerDir)) {
-            fail(`Fail to create workspace at ${workerDir}`);
+            expect(`Fail to create workspace at ${workerDir}`).toBeFalsy();
         }
     });
 
-    after(async () => {
+    afterEach(async () => {
         console.info(`cleaning ${workerDir}`);
         await cleanDir(workerDir);
     });
@@ -173,8 +172,7 @@ describe('clean workspace', () => {
             const isCleaned = !existsSync(workerDir);
             expect(isCleaned).toBeTruthy();
         } catch (error) {
-            console.error(error);
-            fail(error);
+            expect(error).toBeFalsy();
         }
     });
 });
