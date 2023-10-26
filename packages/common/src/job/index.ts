@@ -1,14 +1,26 @@
-import { RunnerSpec } from '../runner';
+import { RunnerSpec, RunnerSpecSchema } from '../runner';
+import { z } from 'zod';
 
-export type Job = {
-    readonly id: string;
-    readonly name: string;
-    readonly description?: string;
-    readonly use: string; // runner token
-    readonly with: RunnerSpec; // runner spec
-};
+const JobSchema = z.object({
+    id: z.string().readonly(),
+    name: z.string().readonly(),
+    description: z.string().readonly().optional(),
+    use: z.string().readonly(),
+    with: RunnerSpecSchema.readonly(),
+});
 
-export type JobState = 'SUBMITTED' | 'STARTED' | 'STOPPED' | 'TERMINATED';
+export type Job = Readonly<
+    Omit<z.infer<typeof JobSchema>, 'with'> & {
+        with: RunnerSpec;
+    }
+>;
+
+export type JobState =
+    | 'STAGED'
+    | 'SUBMITTED'
+    | 'STARTED'
+    | 'STOPPED'
+    | 'TERMINATED';
 
 export type TerminatedDescription = {
     readonly timestamp: number;

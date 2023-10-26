@@ -19,7 +19,6 @@ type WorkspaceNS = {
 
 export const defaultWorkerDir = () => `${userInfo().homedir}/pine/worker`;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const workspaceFactory = (opts: WorkspaceParam) => {
     const _WORKER_ROOT_DIR = process.env[PINE_ENV.WORKER_ROOT_DIR];
     const applyOpts: WorkspaceOptions = {
@@ -29,15 +28,15 @@ export const workspaceFactory = (opts: WorkspaceParam) => {
     return new Workspace(applyOpts);
 };
 
-export const manifestValidator = z.object({
-    createTime: z.string(),
-    createBy: z.string(),
+export const ManifestSchema = z.object({
+    createTime: z.coerce.date().readonly(),
+    createBy: z.string().readonly(),
 });
 
-export type Manifest = z.infer<typeof manifestValidator>;
+export type Manifest = Readonly<z.infer<typeof ManifestSchema>>;
 
 const createManifest: () => Manifest = () => ({
-    createTime: Date.now().toString(),
+    createTime: new Date(),
     createBy: userInfo().username,
 });
 
@@ -52,7 +51,6 @@ async function writeManifest(path: string) {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class Workspace {
     ns: WorkspaceNS;
     constructor(private opts: WorkspaceOptions) {

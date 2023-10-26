@@ -1,6 +1,10 @@
-interface Spec {}
+import { z } from 'zod';
 
-export type RunnerSpec = Spec;
+export const RunnerSpecSchema = z.object({
+    x: z.string(),
+});
+
+export type RunnerSpec = z.infer<typeof RunnerSpecSchema>;
 
 export type IRunner = {
     token: string;

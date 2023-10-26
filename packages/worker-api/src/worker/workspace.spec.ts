@@ -2,7 +2,7 @@ import type { WorkspaceParam, Manifest } from './workspace';
 import {
     PINE_ENV,
     defaultWorkerDir,
-    manifestValidator,
+    ManifestSchema,
     workspaceFactory,
 } from './workspace';
 import { userInfo } from 'node:os';
@@ -38,10 +38,10 @@ const validateWorkspace = async (path: string) => {
     }
 
     const payload = await fs.readFile(manifestPath);
-    const manifestObj: Manifest = JSON.parse(
-        payload.toString('utf-8'),
-    ) as Manifest;
-    if (!manifestValidator.safeParse(manifestObj).success) {
+    const manifestObj: Manifest = ManifestSchema.parse(
+        JSON.parse(payload.toString('utf-8')),
+    );
+    if (!ManifestSchema.safeParse(manifestObj).success) {
         throw new Error(`${JSON.stringify(manifestObj)} isn't validated.`);
     }
 
@@ -52,15 +52,15 @@ describe('test Manifest validator', () => {
     test('validate', () => {
         const manifest: Manifest = {
             createBy: 'tom',
-            createTime: new Date().toLocaleDateString(),
+            createTime: new Date(),
         };
 
-        expect(manifestValidator.safeParse(manifest).success).toBeTruthy();
+        expect(ManifestSchema.safeParse(manifest).success).toBeTruthy();
     });
 
     test('not validated', () => {
         expect(
-            manifestValidator.safeParse({
+            ManifestSchema.safeParse({
                 createBy: 'tome',
             }).success,
         ).toBeFalsy();
@@ -86,8 +86,7 @@ describe(`create from default worker directory`, () => {
             await workspace.create();
             expect(await validateWorkspace(workerDir)).toBeTruthy();
         } catch (error) {
-            console.error(error);
-            expect(false).toBeTruthy();
+            expect(error).toBeFalsy();
         }
     });
 });
@@ -116,8 +115,7 @@ describe('create from WorkspaceParam', () => {
             await workspace.create();
             expect(await validateWorkspace(opts.rootDir!)).toBeTruthy();
         } catch (error) {
-            console.error(error);
-            expect(false).toBeTruthy();
+            expect(error).toBeFalsy();
         }
     });
 });
@@ -143,8 +141,7 @@ describe(`create from Environment[${PINE_ENV.WORKER_ROOT_DIR}]`, () => {
             await workspace.create();
             expect(await validateWorkspace(_WORKER_ROOT_DIR)).toBeTruthy();
         } catch (error) {
-            console.error(error);
-            expect(false).toBeTruthy();
+            expect(error).toBeFalsy();
         }
     });
 });
