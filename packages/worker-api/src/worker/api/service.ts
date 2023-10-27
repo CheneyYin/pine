@@ -1,6 +1,7 @@
 import { Job, JobInfo, JobState } from '@pine/common/job';
 
 export type WorkerService = {
+    stage: (job: Job) => string;
     submit: (job: Job) => string;
     start: (jobId: string) => void;
     run: (job: Job) => string; // submit + start

@@ -1,11 +1,11 @@
-import type { WorkspaceParam, Manifest } from './workspace';
+import type { WorkspaceParam, Manifest } from './Workspace';
+import { PINE_ENV } from '@pine/common';
 import {
-    PINE_ENV,
     defaultWorkerDir,
     ManifestSchema,
     workspaceFactory,
     manifestUtil,
-} from './workspace';
+} from './Workspace';
 import { userInfo } from 'node:os';
 import { existsSync, statSync } from 'node:fs';
 import fs from 'node:fs/promises';

@@ -2,10 +2,7 @@ import { existsSync, statSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import { userInfo } from 'node:os';
 import { z } from 'zod';
-
-export enum PINE_ENV {
-    WORKER_ROOT_DIR = 'PINE_WORKER_ROOT_DIR',
-}
+import { PINE_ENV } from '@pine/common';
 
 type WorkspaceOptions = {
     rootDir: string;

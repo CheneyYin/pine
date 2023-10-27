@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-export const RunnerSpecSchema = z.object({
-    x: z.string(),
-});
+export const RunnerSpecSchema = z.object({});
 
 export type RunnerSpec = z.infer<typeof RunnerSpecSchema>;
 

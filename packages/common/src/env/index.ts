@@ -1,0 +1,3 @@
+export enum PINE_ENV {
+    WORKER_ROOT_DIR = 'PINE_WORKER_ROOT_DIR',
+}

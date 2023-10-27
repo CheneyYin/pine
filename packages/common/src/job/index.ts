@@ -116,10 +116,11 @@ export type TerminatedDescription = Readonly<
 
 export const JobInfoSchema = z.object({
     job: JobSchema.readonly(),
-    submitTime: z.number().readonly(),
-    startTime: z.number().readonly(),
-    stopTime: z.number().readonly(),
-    attempt: z.number().readonly(),
+    stageTime: z.number().readonly(),
+    submitTime: z.number().readonly().optional(),
+    startTime: z.number().readonly().optional(),
+    stopTime: z.number().readonly().optional(),
+    attempt: z.number().readonly().optional(),
     status: JobStateSchema.readonly(),
     terminatedDescription: TerminatedDescriptionSchema.readonly().optional(),
 });
@@ -133,6 +134,6 @@ export type JobInfo = Readonly<
     } & {
         status: JobState;
     } & {
-        terminatedDescription: TerminatedDescription;
+        terminatedDescription?: TerminatedDescription;
     }
 >;
