@@ -32,7 +32,7 @@
     "scripts": {
         "build": "tsc -p ./tsconfig.build.json",
         "build:clean": "rimraf ./dist",
-        "test": "jest --config ./jest.config.cjs",
+        "test": "jest --verbose --config ./jest.config.cjs",
         "lint": "eslint ."
     },
     "keywords": [],

@@ -15,12 +15,93 @@ export type Job = Readonly<
     }
 >;
 
-export type JobState =
-    | 'STAGED'
-    | 'SUBMITTED'
-    | 'STARTED'
-    | 'STOPPED'
-    | 'TERMINATED';
+//  Job State Transfer
+//
+//   +-------------------------------+
+//   v                               |
+// +------------+     +-----------+  |
+// | TERMINATED | <-- |  STAGED   |  |
+// +------------+     +-----------+  |
+//   ^                  |            |
+//   |                  |            |
+//   |                  v            |
+//   |                +-----------+  |
+//   |                | SUBMITTED | -+
+//   |                +-----------+
+//   |                  |
+//   |                  |
+//   |                  v
+//   |                +-----------+
+//   +--------------- |  STARTED  |
+//                    +-----------+
+//                      |
+//                      |
+//                      v
+//                    +-----------+
+//                    |  STOPPED  |
+//                    +-----------+
+
+export enum JobState {
+    STAGED = 'STAGED',
+    SUBMITTED = 'SUBMITTED',
+    STARTED = 'STARTED',
+    STOPPED = 'STOPPED',
+    TERMINATED = 'TERMINATED',
+}
+
+interface Current {
+    readonly current: JobState;
+}
+
+interface ToSubmitted {
+    toSubmitted: () => OnSubmitted;
+}
+
+interface ToStarted {
+    toStarted: () => OnStarted;
+}
+
+interface ToStopped {
+    toStopped: () => OnStopped;
+}
+
+interface ToTerminated {
+    toTerminated: () => OnTerminated;
+}
+
+type OnStaged = Current & ToSubmitted & ToTerminated;
+type OnSubmitted = Current & ToStarted & ToTerminated;
+type OnStarted = Current & ToStopped & ToTerminated;
+type OnStopped = Current;
+type OnTerminated = Current;
+
+const JobOnStaged: OnStaged = {
+    current: JobState.STAGED,
+    toSubmitted: () => JobOnSubmitted,
+    toTerminated: () => JobOnTerminated,
+};
+
+const JobOnSubmitted: OnSubmitted = {
+    current: JobState.SUBMITTED,
+    toStarted: () => JobOnStarted,
+    toTerminated: () => JobOnTerminated,
+};
+
+const JobOnStarted: OnStarted = {
+    current: JobState.STARTED,
+    toStopped: () => JobOnStopped,
+    toTerminated: () => JobOnTerminated,
+};
+
+const JobOnStopped: OnStopped = {
+    current: JobState.STOPPED,
+};
+
+const JobOnTerminated: OnTerminated = {
+    current: JobState.TERMINATED,
+};
+
+export const initJobOn = () => JobOnStaged;
 
 export type TerminatedDescription = {
     readonly timestamp: number;
