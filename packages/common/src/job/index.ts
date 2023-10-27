@@ -49,6 +49,8 @@ export enum JobState {
     TERMINATED = 'TERMINATED',
 }
 
+export const JobStateSchema = z.nativeEnum(JobState);
+
 interface Current {
     readonly current: JobState;
 }
@@ -103,17 +105,34 @@ const JobOnTerminated: OnTerminated = {
 
 export const initJobOn = () => JobOnStaged;
 
-export type TerminatedDescription = {
-    readonly timestamp: number;
-    readonly error: Error;
-};
+export const TerminatedDescriptionSchema = z.object({
+    timestamp: z.number().readonly(),
+    error: z.instanceof(Error),
+});
 
-export type JobInfo = {
-    readonly job: Job;
-    readonly submitTime: number;
-    readonly startTime: number;
-    readonly stopTime: number;
-    readonly attempt: number;
-    readonly status: JobState;
-    readonly terminatedDescription?: TerminatedDescription;
-};
+export type TerminatedDescription = Readonly<
+    z.infer<typeof TerminatedDescriptionSchema>
+>;
+
+export const JobInfoSchema = z.object({
+    job: JobSchema.readonly(),
+    submitTime: z.number().readonly(),
+    startTime: z.number().readonly(),
+    stopTime: z.number().readonly(),
+    attempt: z.number().readonly(),
+    status: JobStateSchema.readonly(),
+    terminatedDescription: TerminatedDescriptionSchema.readonly().optional(),
+});
+
+export type JobInfo = Readonly<
+    Omit<
+        z.infer<typeof JobInfoSchema>,
+        'job' | 'status' | 'terminatedDescription'
+    > & {
+        job: Job;
+    } & {
+        status: JobState;
+    } & {
+        terminatedDescription: TerminatedDescription;
+    }
+>;
