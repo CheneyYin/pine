@@ -23,7 +23,9 @@ const createRoot = async (rootDir: string) => {
 
     if (!isExisted) {
         try {
-            await mkdir(rootDir);
+            await mkdir(rootDir, {
+                recursive: true,
+            });
         } catch (error) {
             console.error(`Fail to create runner space at ${rootDir}`);
             throw error;
