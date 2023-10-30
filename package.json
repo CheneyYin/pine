@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "pnpm -r --filter \"@pine/*\" run build",
-        "build:clean": "rimraf ./dist && pnpm -r --filter \"@pine/*\" run clean:build",
+        "build:clean": "rimraf ./dist && pnpm -r --filter \"@pine/*\" run build:clean",
         "test": "pnpm -r --filter \"@pine/*\" run test",
         "format:fix": "prettier --write .",
         "format:check": "prettier --check .",
