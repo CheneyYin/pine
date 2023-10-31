@@ -1,10 +1,5 @@
 {
     // extend your base config to share compilerOptions, etc
     "extends": "../../tsconfig.json",
-    "include": ["src", ".eslintrc.cjs"],
-    "exclude": ["**/node_modules"],
-    "compilerOptions": {
-        // ensure that nobody can accidentally use this config for a build
-        "noEmit": true
-    }
+    "include": ["src"]
 }
