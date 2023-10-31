@@ -67,6 +67,9 @@ importers:
             '@pine/logger':
                 specifier: workspace:^
                 version: link:../logger
+            winston:
+                specifier: ^3.11.0
+                version: 3.11.0
 
     packages/worker-api:
         dependencies:

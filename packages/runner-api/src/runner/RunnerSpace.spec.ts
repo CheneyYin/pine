@@ -1,6 +1,9 @@
 import { existsSync, statSync } from 'fs';
 import { rm } from 'fs/promises';
 import { RunnerSpaceParam, createRunnerSpace } from './RunnerSpace';
+import { logger } from '@pine/logger';
+
+logger.info('hello');
 
 const cleanDir = async (path: string) => {
     console.info(`cleaning ${path}.`);
