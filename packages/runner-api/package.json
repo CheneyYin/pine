@@ -21,7 +21,6 @@
     "license": "ISC",
     "dependencies": {
         "@pine/common": "workspace:^",
-        "@pine/logger": "workspace:^",
-        "winston": "^3.11.0"
+        "@pine/logger": "workspace:^"
     }
 }

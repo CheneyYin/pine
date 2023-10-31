@@ -8,7 +8,7 @@ import {
 
 const opts: LoggerOptions = {
     level: 'info',
-    format: format.simple(),
+    format: format.combine(format.timestamp(), format.simple()),
     transports: [new transports.Console()],
 };
 
