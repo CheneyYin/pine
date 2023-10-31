@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["packages", "**/.eslintrc.cjs"],
+    "exclude": ["**/node_modules", "**/dist"],
+    "compilerOptions": {
+        "declarationDir": "dist",
+        "outDir": "dist"
+    }
+}
