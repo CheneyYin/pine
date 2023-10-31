@@ -9,6 +9,8 @@
         "paths": {
             "@pine/common": ["packages/common/src"],
             "@pine/common/*": ["packages/common/src/*"],
+            "@pine/logger": ["packages/logger/src"],
+            "@pine/logger/*": ["packages/logger/src/*"],
             "@pine/runner-api": ["packages/runner-api/src"],
             "@pine/runner-api/*": ["packages/runner-api/src/*"],
             "@pine/worker-api": ["packages/worker-api/src"],

@@ -64,6 +64,9 @@ importers:
             '@pine/common':
                 specifier: workspace:^
                 version: link:../common
+            '@pine/logger':
+                specifier: workspace:^
+                version: link:../logger
 
     packages/worker-api:
         dependencies:
