@@ -1,6 +1,6 @@
 {
     "include": ["packages"],
-    "exclude": ["**/node_modules", "test"],
+    "exclude": ["**/node_modules", "**/dist", "test"],
     "compilerOptions": {
         "target": "ES2020",
         "module": "ESNext",

@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "build:dist": "tsc -p ./tsconfig.build.json",
         "build": "pnpm -r --filter \"@pine/*\" run build",
         "build:clean": "rimraf ./dist && pnpm -r --filter \"@pine/*\" run build:clean",
         "test": "jest --verbose --config ./jest.config.cjs",

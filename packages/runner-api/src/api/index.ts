@@ -1,4 +1,4 @@
-import { JobInfo, JobState } from 'packages/common/dist';
+import { JobInfo, JobState } from '@pine/common';
 
 export type RunerApi = {
     start: () => boolean;
