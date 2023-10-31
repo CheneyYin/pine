@@ -6,7 +6,7 @@
     "scripts": {
         "build": "pnpm -r --filter \"@pine/*\" run build",
         "build:clean": "rimraf ./dist && pnpm -r --filter \"@pine/*\" run build:clean",
-        "test": "pnpm -r --filter \"@pine/*\" run test",
+        "test": "jest --verbose --config ./jest.config.cjs",
         "format:fix": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "pnpm -r --filter \"@pine/*\" run lint",

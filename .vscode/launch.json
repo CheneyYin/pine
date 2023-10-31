@@ -9,12 +9,26 @@
             "request": "launch",
             "name": "Debug Jest Tests",
             "runtimeExecutable": "pnpm",
-            "runtimeArgs": ["exec", "jest", "--runInBand", "${file}"],
+            "runtimeArgs": [
+                "exec",
+                "jest",
+                "--config",
+                "./jest.config.cjs",
+                "--runInBand",
+                "${file}"
+            ],
             "skipFiles": ["<node_internals>/**"],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "windows": {
-                "runtimeArgs": ["exec", "jest", "--runInBand", "${file}"]
+                "runtimeArgs": [
+                    "exec",
+                    "jest",
+                    "--config",
+                    "./jest.config.cjs",
+                    "--runInBand",
+                    "${file}"
+                ]
             }
         }
     ]
