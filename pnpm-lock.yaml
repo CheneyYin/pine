@@ -73,6 +73,9 @@ importers:
             '@pine/common':
                 specifier: workspace:^
                 version: link:../common
+            '@pine/logger':
+                specifier: workspace:^
+                version: link:../logger
             '@trpc/client':
                 specifier: ^10.40.0
                 version: 10.40.0(@trpc/server@10.40.0)

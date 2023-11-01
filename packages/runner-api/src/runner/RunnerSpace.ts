@@ -1,5 +1,6 @@
 import { existsSync, statSync } from 'fs';
 import { mkdir, rm } from 'fs/promises';
+import { logger } from '@pine/logger';
 
 export type RunnerSpace = {
     create: (() => Promise<void>) | (() => void);
@@ -27,7 +28,7 @@ const createRoot = async (rootDir: string) => {
                 recursive: true,
             });
         } catch (error) {
-            console.error(`Fail to create runner space at ${rootDir}`);
+            logger.error(`Fail to create runner space at ${rootDir}`);
             throw error;
         }
     }
@@ -49,7 +50,7 @@ const cleanRoot = async (rootDir: string) => {
             recursive: true,
         });
     } catch (error) {
-        console.error(`Fail to clean Runner space at ${rootDir}.`);
+        logger.error(`Fail to clean Runner space at ${rootDir}.`);
         throw error;
     }
 };

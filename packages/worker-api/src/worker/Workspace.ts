@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import { userInfo } from 'node:os';
 import { z } from 'zod';
 import { PINE_ENV } from '@pine/common';
+import { logger } from '@pine/logger';
 
 type WorkspaceOptions = {
     rootDir: string;
@@ -46,7 +47,7 @@ const readManifest = async (path: string): Promise<Manifest> => {
         const manifest: Manifest = ManifestSchema.parse(obj);
         return manifest;
     } catch (error) {
-        console.error(`Fail to read manifest at ${path}.`);
+        logger.error(`Fail to read manifest at ${path}.`);
         throw error;
     }
 };
@@ -57,7 +58,7 @@ const writeManifest = async (path: string, manifest?: Manifest) => {
     try {
         await fs.writeFile(path, payload);
     } catch (error) {
-        console.error(`Fail to write manifest at ${path}.`);
+        logger.error(`Fail to write manifest at ${path}.`);
         throw error;
     }
 };
@@ -85,8 +86,8 @@ class Workspace {
                 });
                 await writeManifest(this.ns.manifestPath);
             } catch (error) {
-                console.error(`Fail to create workspace at ${rootDir}.`);
-                console.error(error);
+                logger.error(`Fail to create workspace at ${rootDir}.`);
+                logger.error(error);
                 process.exit(1);
             }
         }
