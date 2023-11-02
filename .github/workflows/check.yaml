@@ -14,13 +14,15 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 8.9.2
             - name: Setup Node.js ${{matrix.node_version}}
               uses: actions/setup-node@v3
               with:
                   node-version: ${{matrix.node_version}}
                   cache: 'pnpm'
-            - name: Install pnpm
-              run: npm -g i pnpm
             - name: Install dependecy
               run: pnpm install
             - name: Format Check
