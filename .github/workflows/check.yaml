@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 node_version: ['20.8.0']
-        runs-on: unbuntu-latest
+        runs-on: ubuntu-latest
         container: node:${{matrix.node_version}}
         steps:
             - uses: actions/checkout@v3
