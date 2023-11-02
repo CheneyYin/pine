@@ -89,6 +89,18 @@ importers:
                 specifier: ^3.22.4
                 version: 3.22.4
 
+    packages/worker-srv:
+        dependencies:
+            '@pine/common':
+                specifier: workspace:^
+                version: link:../common
+            '@pine/runner-api':
+                specifier: workspace:^
+                version: link:../runner-api
+            '@pine/worker-api':
+                specifier: workspace:^
+                version: link:../worker-api
+
 packages:
     /@aashutoshrathi/word-wrap@1.2.6:
         resolution:

@@ -14,7 +14,9 @@
             "@pine/runner-api": ["packages/runner-api/src"],
             "@pine/runner-api/*": ["packages/runner-api/src/*"],
             "@pine/worker-api": ["packages/worker-api/src"],
-            "@pine/worker-api/*": ["packages/worker-api/src/*"]
+            "@pine/worker-api/*": ["packages/worker-api/src/*"],
+            "@pine/worker-srv": ["packages/worker-srv/src"],
+            "@pine/worker-srv/*": ["packages/worker-srv/src/*"]
         },
         "resolvePackageJsonExports": true,
         "resolvePackageJsonImports": true,
