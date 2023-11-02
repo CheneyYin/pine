@@ -1,0 +1,60 @@
+name: Build and Test
+
+on:
+    push:
+        branches: ['main']
+    pull_request:
+        branches: ['main']
+
+concurrency:
+    group: BT-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    check:
+        name: 'Check format and lint'
+        strategy:
+            matrix:
+                node_version: ['18']
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 8.9.2
+            - name: Setup Node.js ${{matrix.node_version}}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{matrix.node_version}}
+                  cache: 'pnpm'
+            - name: Install dependecy
+              run: pnpm install
+            - name: Format Check
+              run: pnpm format:check
+            - name: Lint Check
+              run: pnpm lint
+
+    build-test:
+        name: 'Build and Test'
+        strategy:
+            matrix:
+                node_version: ['18']
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 8.9.2
+            - name: Setup Node.js ${{matrix.node_version}}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{matrix.node_version}}
+                  cache: 'pnpm'
+            - name: Install dependecy
+              run: pnpm install
+            - name: Build
+              run: pnpm build:dist
+            - name: Test
+              run: pnpm test
