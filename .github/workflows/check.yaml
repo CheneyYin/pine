@@ -20,6 +20,11 @@ jobs:
               with:
                   node-version: ${{matrix.node_version}}
                   cache: 'pnpm'
-            - run: pnpm install
-            - run: pnpm format:check
-            - run: pnpm lint
+            - name: Install pnpm
+              run: npm -g i pnpm
+            - name: Install dependecy
+              run: pnpm install
+            - name: Format Check
+              run: pnpm format:check
+            - name: Lint Check
+              run: pnpm lint
