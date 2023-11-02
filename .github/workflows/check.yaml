@@ -12,11 +12,10 @@ jobs:
             matrix:
                 node_version: ['18']
         runs-on: ubuntu-latest
-        container: node:${{matrix.node_version}}
         steps:
             - uses: actions/checkout@v3
             - name: Setup Node.js ${{matrix.node_version}}
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v3
               with:
                   node-version: ${{matrix.node_version}}
                   cache: 'pnpm'
