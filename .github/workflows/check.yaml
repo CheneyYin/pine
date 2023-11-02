@@ -10,7 +10,7 @@ jobs:
     check:
         strategy:
             matrix:
-                node_version: ['20.8.0']
+                node_version: ['18']
         runs-on: ubuntu-latest
         container: node:${{matrix.node_version}}
         steps:
